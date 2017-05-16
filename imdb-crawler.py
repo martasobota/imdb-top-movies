@@ -42,10 +42,9 @@ def imdb_crawler():
 		details = r_omdb.json()
 		movies_details[details['Title']] = details['Year']
 
-	# print(movies_details)
-
-	sorted_movies = sorted(movies_details.items(), key=lambda x: x[1])
+	# sorted_movies = sorted(movies_details.items(), key=lambda x: x[1])
 	# print(sorted_movies)
+
 	'''
 	Part 3: Having details of those 100 movies put movies into CSV file  
 	sorted by year of production CSV will consists of only two columns:  
@@ -53,25 +52,45 @@ def imdb_crawler():
 	'''
 
 	# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-	imdb_top_movies = open('/users/marta/git/imdb-top-movies/ImdbTopMovies.csv', 'w')
-	csvwriter = csv.writer(imdb_top_movies)
+	
 
-	csvwriter.writerows(sorted_movies)
+    # with open(self.output_file_name, 'w') as f:
+    #     w = csv.writer(f)
+    #     w.writerows(sorted(self.movies_details.items(), key=lambda x: x[1]))  # Sort by year, ascending
+
+	# imdb_top_movies = open('/users/marta/git/imdb-top-movies/ImdbTopMovies.csv', 'w')
+	# csvwriter = csv.writer(imdb_top_movies)
+
+	# csvwriter.writerows(sorted_movies)
 
 
 
 	# count = 0
-	# for position in movies_details:
+	# for mov in movies_details:
 	# 	if count == 0:
-	# 		# header = position.keys()
-	# 		header = position.items()
+	# 		for keys in movies_details.items():
+	# 			# header = mov.keys()
+	# 			header = keys
+	# 		# header = mov.keys()
+	# 		# header = mov.items()
+	# 		# header = mov[0][1]
 	# 		csvwriter.writerow(header)
 	# 		count += 1
-	# 	csvwriter.writerow(position.values())
+	# 	# csvwriter.writerow(mov.values())
+	# 	csvwriter.writerows(movies_details)
+	# 	# csvwriter.writerow(mov)
 
-	imdb_top_movies.close()
+	# imdb_top_movies.close()
 	# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
+	# with open(self.output_file_name, 'w') as f:
+ #            w = csv.writer(f)
+ #            w.writerows(sorted(self.movies_details.items(), key=lambda x: x[1]))  # Sort by year, ascending
+
+	with open('/users/marta/git/imdb-top-movies/ImdbTopMovies.csv', 'w') as f:
+		writer = csv.writer(f)
+		writer.writerows(sorted(movies_details.items(), key=lambda x: x[1]))
+	    # w.writerows(sorted(self.movies_details.items(), key=lambda x: x[1])) 
 
 
 	# with open('/users/marta/git/imdb-top-movies/imdb-top-movies.csv', 'wb') as f:
@@ -79,7 +98,6 @@ def imdb_crawler():
 	# 	writer.writerows(records)
 
 imdb_crawler()
-
 
 
 # '''
