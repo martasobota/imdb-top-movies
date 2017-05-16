@@ -1,3 +1,5 @@
+import csv
+import json
 from bs4 import BeautifulSoup
 import requests
 
@@ -7,7 +9,6 @@ Check each movie link and scrape movie's ID that is a part or URL,
 for  instance: <a  href="/title/tt0111161/?pf_rd_m=A2FGELUUNOQJNL&amp;pf_rd_p=...  </a> 
 The ID of this movie is "tt0111161"   
 '''
-
 
 def imdb_crawler():
 	imdb_url = 'http://www.imdb.com/chart/top?ref=ft_250'
@@ -27,29 +28,60 @@ def imdb_crawler():
 			movie_id = href.split('/')[2] #takes only id
 		top_100_ids_list.append(movie_id)
 
-	print(top_100_ids_list)
-	print(len(top_100_ids_list))
-
 	'''
 	Part 2: Having a list of 100 movie IDs get each movie details from 
 	http://www.omdbapi.com/?i=tt0111161 
 	'''
 
 	api = '5fc60de' #should be in os.environ or imported from separate file
+	movies_details = dict()
+
 	for movie_id in top_100_ids_list:
 		omdb_url = 'http://www.omdbapi.com/' + '?i=' + movie_id + '&apikey=' + api
 		r_omdb = requests.get(omdb_url)
 		details = r_omdb.json()
-		return details
+		movies_details[details['Title']] = details['Year']
 
-	
+	# print(movies_details)
+
+	sorted_movies = sorted(movies_details.items(), key=lambda x: x[1])
+	# print(sorted_movies)
+	'''
+	Part 3: Having details of those 100 movies put movies into CSV file  
+	sorted by year of production CSV will consists of only two columns:  
+	title, year. 
+	'''
+
+	# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+	imdb_top_movies = open('/users/marta/git/imdb-top-movies/ImdbTopMovies.csv', 'w')
+	csvwriter = csv.writer(imdb_top_movies)
+
+	csvwriter.writerows(sorted_movies)
+
+
+
+	# count = 0
+	# for position in movies_details:
+	# 	if count == 0:
+	# 		# header = position.keys()
+	# 		header = position.items()
+	# 		csvwriter.writerow(header)
+	# 		count += 1
+	# 	csvwriter.writerow(position.values())
+
+	imdb_top_movies.close()
+	# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
+
+
+	# with open('/users/marta/git/imdb-top-movies/imdb-top-movies.csv', 'wb') as f:
+	# 	writer = csv.writer(f, delimiter=';')
+	# 	writer.writerows(records)
 
 imdb_crawler()
 
 
 
-
-
-'''
-Part 4: 100% test coverage is required (please use py.test) 
-'''
+# '''
+# Part 4: 100% test coverage is required (please use py.test) 
+# '''
