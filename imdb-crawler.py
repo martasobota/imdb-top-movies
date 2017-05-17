@@ -1,6 +1,6 @@
+from bs4 import BeautifulSoup
 import csv
 import json
-from bs4 import BeautifulSoup
 import requests
 
 '''
@@ -43,7 +43,6 @@ def imdb_crawler():
 		movies_details[details['Title']] = details['Year']
 
 	sorted_movies = sorted(movies_details.items(), key=lambda x: x[1])
-	# print(sorted_movies)
 
 	'''
 	Part 3: Having details of those 100 movies put movies into CSV file  
@@ -51,21 +50,13 @@ def imdb_crawler():
 	title, year. 
 	'''
 
+	#enter your file path below
 	with open('/users/marta/git/imdb-top-movies/ImdbTopMovies.csv', 'w') as f:
 		columns = ['Title', 'Year']
 		writer = csv.writer(f, dialect='excel')
 		writer.writerow(columns)
-		# for data in sorted(movies_details.items(), key=lambda x: x[1]):
 		for data in sorted_movies:
 			writer.writerow(data)
-
-		# writer.writeheader()
-		# writer.writerow(sorted(movies_details.items(), key=lambda x: x[1]))
-		# writer.writerow(movies_details)
-		# writer = csv.writer(f)
-		# writer.writerows(sorted(movies_details.items(), key=lambda x: x[1]))
-	    
-	    # writer.writerow(sorted(movies_details.items(), key=lambda x: x[1]))
 
 
 imdb_crawler()
