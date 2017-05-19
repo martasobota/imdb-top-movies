@@ -41,10 +41,10 @@ class IMDB_top_movies:
 
 		return top_100_ids_list
 
-		'''
-		Part 2: Having a list of 100 movie IDs get each movie details from 
-		http://www.omdbapi.com/?i=tt0111161 
-		'''
+	'''
+	Part 2: Having a list of 100 movie IDs get each movie details from 
+	http://www.omdbapi.com/?i=tt0111161 
+	'''
 
 	def omdb_api_details(self):
 		
@@ -61,11 +61,11 @@ class IMDB_top_movies:
 		sorted_movies = sorted(movies_details.items(), key=lambda x: x[1])
 		return sorted_movies
 
-		'''
-		Part 3: Having details of those 100 movies put movies into CSV file  
-		sorted by year of production CSV will consists of only two columns:  
-		title, year. 
-		'''
+	'''
+	Part 3: Having details of those 100 movies put movies into CSV file  
+	sorted by year of production CSV will consists of only two columns:  
+	title, year. 
+	'''
 
 	def generate_csv(self):
 		sorted_movies = self.omdb_api_details()
