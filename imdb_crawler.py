@@ -5,7 +5,7 @@ import requests
 
 class IMDB_top_movies:
 
-	api = '5fc60de' #should be exported to os.environ or imported from separate file
+	api = 'youromdbAPIkeyHERE' #should be exported to os.environ or imported from separate file
 	csv_file_name = 'ImdbTopMovies.csv'
 	imdb_url = 'http://www.imdb.com/chart/top?ref=ft_250'
 
@@ -22,7 +22,6 @@ class IMDB_top_movies:
 	'''
 
 	def imdb_id_crawler(self):
-		# imdb_url = 'http://www.imdb.com/chart/top?ref=ft_250'
 		r_imdb = requests.get(self.imdb_url)
 		imdb_content = r_imdb.text
 		soup = BeautifulSoup(imdb_content, 'lxml')
@@ -42,8 +41,7 @@ class IMDB_top_movies:
 		return top_100_ids_list
 
 	'''
-	Part 2: Having a list of 100 movie IDs get each movie details from 
-	http://www.omdbapi.com/?i=tt0111161 
+	Part 2: Having a list of 100 movie IDs, get each movie details from omdbapi.com
 	'''
 
 	def omdb_api_details(self):
@@ -56,15 +54,15 @@ class IMDB_top_movies:
 			omdb_url = 'http://www.omdbapi.com/' + '?i=' + movie_id + '&apikey=' + api
 			r_omdb = requests.get(omdb_url)
 			details = r_omdb.json()
+			print ('Detils: ', details)
 			movies_details[details['Title']] = details['Year']
 
 		sorted_movies = sorted(movies_details.items(), key=lambda x: x[1])
 		return sorted_movies
 
 	'''
-	Part 3: Having details of those 100 movies put movies into CSV file  
-	sorted by year of production CSV will consists of only two columns:  
-	title, year. 
+	Part 3: Having details of best 100 movies put them into CSV file  
+	sorted by year of production. CSV will consists of only two columns: title and year. 
 	'''
 
 	def generate_csv(self):
